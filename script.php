@@ -29,11 +29,15 @@ $roundService = new \App\Services\RoundService($config, $requestStartDataFactory
 foreach ($startRoundFiles as $filepath) {
     $fileType = $fileReader->getFileType($filepath);
     $filename = $fileReader->getFileNameFromPath($filepath);
+
+    $roundNumber = \App\Services\GetFileNumber::getFileNumber($filename);
+
     $content = $fileReader->getFileContent($filepath);
     $startRound = $roundFactory->make($startRoundTransformer, $fileType, $content);
-    $roundNumber = \App\Services\GetFileNumber::getFileNumber($filename);
+    echo 'Start Round #' . $roundNumber . ' executed' . PHP_EOL;
     $content = $fileReader->getFileContent(DIRECTORY_WITH_REQUESTS . '/end_round_' . $roundNumber . '.' . $fileType);
     $endRound = $roundFactory->make($endRoundTransformer, $fileType, $content);
+    echo 'End Round #' . $roundNumber . ' executed' . PHP_EOL;
     $roundService->startRound($startRound);
     $roundService->endRound($endRound);
 }

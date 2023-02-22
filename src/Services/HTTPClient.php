@@ -19,8 +19,6 @@ class HTTPClient
     {
         $ch = curl_init($url);
 
-        var_dump($url);
-        var_dump(json_encode($data));
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -32,7 +30,6 @@ class HTTPClient
         }
 
         $response = curl_exec($ch);
-        var_dump($response);
 
         if ($response === false) {
             throw new HTTPException('HTTP request failed: ' . curl_error($ch));
